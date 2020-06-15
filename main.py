@@ -97,7 +97,7 @@ async def process_age_invalid(message: types.Message):
 async def process_age(message: types.Message, state: FSMContext):
     
     await message.photo[-1].download('style'+str(message.from_user.id)+'.jpg')
-    await bot.send_message(chat_id=message.from_user.id, text="Loading...")
+    await bot.send_message(chat_id=message.from_user.id, text="Loading... It will take time. Really.")
     tr = Transs('input'+str(message.from_user.id)+'.jpg', 'style'+str(message.from_user.id)+'.jpg',
                 'output'+str(message.from_user.id)+'.jpg')
     logging.info('Started Style Transfering')
