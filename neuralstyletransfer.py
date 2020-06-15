@@ -13,7 +13,6 @@ from torchvision import transforms
 
 from PIL import Image
 
-# In[15]:
 
 
 # vgg definition that conveniently let's you grab the outputs from any layer
@@ -76,9 +75,6 @@ class VGG(nn.Module):
         return [out[key] for key in out_keys]
 
 
-# In[16]:
-
-
 # gram matrix and loss
 class GramMatrix(nn.Module):
     def forward(self, input):
@@ -93,9 +89,6 @@ class GramMSELoss(nn.Module):
     def forward(self, input, target):
         out = nn.MSELoss()(GramMatrix()(input), target)
         return (out)
-
-
-# In[23]:
 
 
 class Transs:
@@ -193,7 +186,7 @@ class Transs:
                 return loss
             optimizer.step(closure)
 
-        # display result
-        logging.info('display result')
+        # display a result
+        logging.info('display a result')
         out_img = postp(opt_img.data[0].cpu().squeeze())
         out_img.save(self.output)
