@@ -11,7 +11,7 @@ from neuralstyletransfer import Transs
 
 logging.basicConfig(level=logging.INFO)
 
-API_TOKEN = '1050090203:AAG-k3628Iv2gdAWjkykUyhnBcQ2dQ47ya0'
+API_TOKEN = '<tokenApi>'
 
 bot = Bot(token=API_TOKEN)
 
@@ -27,7 +27,7 @@ class Form(StatesGroup):
 
 
 async def send_to_admin(*args):
-    await bot.send_message(chat_id=434773687, text="Bot has been launched!")
+    await bot.send_message(chat_id=<AdminId>, text="Bot has been launched!")
 
 
 @dp.message_handler(commands='start')
