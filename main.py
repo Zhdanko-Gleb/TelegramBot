@@ -22,8 +22,8 @@ dp = Dispatcher(bot, storage=storage)
 
 # States
 class Form(StatesGroup):
-    input = State()  # Will be represented in storage as 'Form:name'
-    style = State()  # Will be represented in storage as 'Form:age'
+    input = State()  
+    style = State()  
 
 
 async def send_to_admin(*args):
@@ -70,48 +70,42 @@ async def cancel_handler(message: types.Message, state: FSMContext):
     await message.reply('Cancelled.', reply_markup=types.ReplyKeyboardRemove())
 
 
-# Check age. Age gotta be digit
+# Check the First Image.
 @dp.message_handler(content_types=['text'], state=Form.input)
 async def process_age_invalid(message: types.Message):
-    """
-    If age is invalid
-    """
+
     return await message.reply("It's gotta be a photo")
 
 
 @dp.message_handler(state=Form.input, content_types=['photo'])
 async def process_name(message: types.Message, state: FSMContext):
-    """
-    Process user name
-    """
+
     await message.photo[-1].download('input'+str(message.from_user.id)+'.jpg')
 
     await Form.next()
     await message.reply("Send your style, which you want to apply.")
 
 
-# Check age. Age gotta be digit
+# Check the Second Image.
 @dp.message_handler(content_types=['text'], state=Form.style)
 async def process_age_invalid(message: types.Message):
-    """
-    If age is invalid
-    """
+
     return await message.reply("It's gotta be a photo")
 
 
 @dp.message_handler(content_types=['photo'], state=Form.style)
 async def process_age(message: types.Message, state: FSMContext):
-    # Update state and data
+    
     await message.photo[-1].download('style'+str(message.from_user.id)+'.jpg')
     await bot.send_message(chat_id=message.from_user.id, text="Loading...")
     tr = Transs('input'+str(message.from_user.id)+'.jpg', 'style'+str(message.from_user.id)+'.jpg',
-                'output'+str(message.from_user.id)+'.jpg') # there was an error!!!
+                'output'+str(message.from_user.id)+'.jpg')
     logging.info('Started Style Transfering')
     tr.go()
     logging.info('Finish Style Transfering')
     with open('output'+str(message.from_user.id)+'.jpg', 'rb') as photo:
         await bot.send_photo(chat_id=message.from_user.id, photo=photo, caption="Your photo!")
-    await bot.send_message(chat_id=message.from_user.id, text="Finish???")
+    await bot.send_message(chat_id=message.from_user.id, text="Here you go! See you Soon!")
     # Finish conversation
     await state.finish()
 
